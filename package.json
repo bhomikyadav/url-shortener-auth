@@ -1,0 +1,29 @@
+{
+  "name": "url-shortener-auth",
+  "version": "1.0.0",
+  "description": "auth service of urlshortner",
+  "homepage": "https://github.com/bhomikyadav/url-shortener-auth#readme",
+  "bugs": {
+    "url": "https://github.com/bhomikyadav/url-shortener-auth/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhomikyadav/url-shortener-auth.git"
+  },
+  "license": "ISC",
+  "author": "Bhomik Yadav",
+  "type": "commonjs",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js",
+    "start":"env-cmd -f .env node dist/app.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
+  },
+  "dependencies": {
+    "env-cmd": "^11.0.0",
+    "express": "^5.2.1"
+  }
+}
