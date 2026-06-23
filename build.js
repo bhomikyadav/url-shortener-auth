@@ -19,6 +19,7 @@ esbuild.build({
 
   external: [
     "express",
-    "env-cmd"
+    "env-cmd",
+    "mongoose"
   ]
 }).catch(() => process.exit(1));

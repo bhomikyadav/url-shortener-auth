@@ -1,10 +1,11 @@
-import express from "express";
+async function startServer() {
+  const { default: app } = await import("./config/express.config");
 
-const app = express();
+  app.listen(process.env.PORT, () => {
+    console.log(
+      `Server 💚 is started at (${process.env.PORT}): ENV : ${process.env.CURRENT_ENV}`,
+    );
+  });
+}
 
-
-app.listen(process.env.PORT, () => {
-  console.log(
-    `Server 💚 is running at PORT:(${process.env.PORT}) : ENV:${process.env.BUILD_ENV}`,
-  );
-});
+startServer();
