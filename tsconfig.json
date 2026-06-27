@@ -4,6 +4,7 @@
     "outDir": "./dist",
 
     "target": "ESNext",
+
     "module": "ESNext",
     "moduleResolution": "bundler",
 
@@ -18,5 +19,6 @@
     "isolatedModules": true,
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "**/*.test.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"]
 }

@@ -1,7 +1,7 @@
 declare global {
     namespace Express {
-        interface Request {
-            create?(): string
+        interface Response {
+            create?(): typeof import('../utilities/response.middleware').createResponseFunction
         }
     }
 }
