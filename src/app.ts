@@ -1,5 +1,5 @@
 async function startServer() {
-  const { default: app } = await import("./config/express.config");
+  const { default: app } = await import("./config/express.config.js");
 
   app.listen(process.env.PORT, () => {
     console.log(

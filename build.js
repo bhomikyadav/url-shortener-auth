@@ -1,25 +1,15 @@
 const esbuild = require("esbuild");
 
-esbuild.build({
-  entryPoints: ["src/app.js"],
-
-  bundle: true,
-
-  platform: "node",
-
-  target: "node22",
-
-  format: "cjs",
-
-  outfile: "dist/app.js",
-
-  minify: true,
-
-  sourcemap: true,
-
-  external: [
-    "express",
-    "env-cmd",
-    "mongoose"
-  ]
-}).catch(() => process.exit(1));
+esbuild
+  .build({
+    entryPoints: ["src/app.ts"],
+    outfile: "dist/app.js",
+    bundle: true,
+    platform: "node",
+    target: "node22",
+    format: "cjs",
+    packages: "external",
+    sourcemap: true,
+    minify: false,
+  })
+  .catch(() => process.exit(1));
