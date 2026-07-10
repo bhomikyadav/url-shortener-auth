@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpException,
   Injectable,
   UnauthorizedException,
@@ -38,15 +39,26 @@ export class AuthService {
   }
 
   // 2. Validate refresh token & issue a new access token
-  async refreshTokens(userId: string, refreshToken: string) {
-    // Note: In real production, verify 'refreshToken' matches a hashed
-    // version stored in your DB for this userId before proceeding!
+  async refreshTokens(payload: any, refreshToken: string) {
+    const findUser = await this.userService.findUser(
+      { _id: payload.sub, refreshToken },
+      {},
+    );
+    if (!Array.isArray(findUser) || !findUser.length) {
+      throw new BadRequestException();
+    }
 
-    // Example database check pseudo-code:
-    // const user = await this.usersService.findOne(userId);
-    // if (!user || user.hashedRefreshToken !== refreshToken) throw new ForbiddenException();
+    // Sign a JWT for the newly registered user
+    const { accessToken, refreshToken: newRefreshToken } = await this.getTokens(
+      findUser.at(0)?._id.toString()!,
+      findUser.at(0)?.name!,
+    );
 
-    return this.getTokens(userId, 'username_from_db');
+    await this.userService.update(
+      { _id: findUser.at(0)?._id.toString() },
+      { refreshToken },
+    );
+    return { accessToken, refreshToken: newRefreshToken };
   }
 
   /**
@@ -74,11 +86,6 @@ export class AuthService {
       ...userDto,
       password: hashPass,
     });
-
-    const payload = {
-      sub: newUser._id,
-      name: newUser.name,
-    };
 
     // Sign a JWT for the newly registered user
     const { accessToken, refreshToken } = await this.getTokens(

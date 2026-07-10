@@ -2,15 +2,12 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
-import { AuthService } from './modules/auth/auth.service';
-import { AuthController } from './modules/auth/auth.controller';
+import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersService } from './modules/users/users.service';
-import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports: [UsersModule, ConfigModule.forRoot({
+  imports: [UsersModule, AuthModule, ConfigModule.forRoot({
       isGlobal: true,
     }),
     MongooseModule.forRootAsync({
@@ -20,7 +17,7 @@ import { JwtService } from '@nestjs/jwt';
         uri: configService.get<string>('MONGODB_URI'),
       }),
     }),],
-  controllers: [AppController, AuthController],
-  providers: [AppService, AuthService,UsersService,JwtService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
