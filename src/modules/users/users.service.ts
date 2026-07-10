@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocumentation } from './schema/user.schema';
+import { User, UserDocumentation } from '../../schema/user.schema';
 import { Model } from 'mongoose';
 import { UserDto } from 'src/dto/user/userDto.dto';
 import { PartialUserDto } from 'src/dto/user/particalDto.dto';

@@ -5,6 +5,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UrlModule } from './modules/url/url.module';
 
 @Module({
   imports: [UsersModule, AuthModule, ConfigModule.forRoot({
@@ -16,7 +17,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB_URI'),
       }),
-    }),],
+    }),
+    UrlModule,],
   controllers: [AppController],
   providers: [AppService],
 })
