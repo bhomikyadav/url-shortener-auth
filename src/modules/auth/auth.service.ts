@@ -24,7 +24,7 @@ export class AuthService {
   async getTokens(userId: string, name: string) {
     const payload = { sub: userId, name };
 
-    const [accessToken, refreshToken] = await Promise.all([
+    let [accessToken, refreshToken] = await Promise.all([
       this.jwt.signAsync(payload, {
         secret: process.env.JWT_SECRET_KEY_ACCESS_TOKEN || 'access_secret',
         expiresIn: '15m',
@@ -34,7 +34,8 @@ export class AuthService {
         expiresIn: '7d',
       }),
     ]);
-
+    accessToken = `Bearer ${accessToken}`;
+    refreshToken = `Bearer ${refreshToken}`;
     return { accessToken, refreshToken };
   }
 

@@ -6,6 +6,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UrlModule } from './modules/url/url.module';
+import { RedisModule } from './modules/redis/redis.module';
+import { RabbitMqModule } from './config/rabbit-mq/rabbit-mq.module';
 
 @Module({
   imports: [UsersModule, AuthModule, ConfigModule.forRoot({
@@ -18,7 +20,9 @@ import { UrlModule } from './modules/url/url.module';
         uri: configService.get<string>('MONGODB_URI'),
       }),
     }),
-    UrlModule,],
+    UrlModule,
+    RedisModule,
+    RabbitMqModule,],
   controllers: [AppController],
   providers: [AppService],
 })

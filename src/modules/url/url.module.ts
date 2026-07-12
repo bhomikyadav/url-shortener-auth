@@ -4,6 +4,8 @@ import { UrlService } from './url.service';
 import { JwtAccessTokenStrategy } from '../auth/jwtAccessToken.strategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Url, UrlSchema } from 'src/schema/url.schema';
+import { RedisModule } from '../redis/redis.module';
+import { RedisService } from '../redis/redis.service';
 
 @Module({
   imports: [
@@ -13,8 +15,9 @@ import { Url, UrlSchema } from 'src/schema/url.schema';
         schema: UrlSchema,
       },
     ]),
+    RedisModule,
   ],
   controllers: [UrlController],
-  providers: [MongooseModule, UrlService, JwtAccessTokenStrategy],
+  providers: [MongooseModule, UrlService, JwtAccessTokenStrategy, RedisService],
 })
 export class UrlModule {}
