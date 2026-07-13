@@ -10,12 +10,16 @@ import { UrlDto } from 'src/dto/url/urlDto.dto';
 import { UrlParamDto } from 'src/dto/url/urlParamDto.dto';
 import { Url } from 'src/schema/url.schema';
 import { RedisService } from '../redis/redis.service';
+import { RabbitMqService } from 'src/config/rabbit-mq/rabbit-mq.service';
+import { Request, Response } from 'express';
+import { UAParser } from 'ua-parser-js';
 
 @Injectable()
 export class UrlService {
   constructor(
     @InjectModel(Url.name) private readonly urlSchema: Model<Url>,
     private readonly redisService: RedisService,
+    private readonly rabbitMq: RabbitMqService,
   ) {}
 
   async create(urlDto: UrlDto, createdBy: string | undefined) {
@@ -45,8 +49,25 @@ export class UrlService {
     return createUrl;
   }
 
-  async findUrl(urlParam: UrlParamDto) {
+  async findUrl(urlParam: UrlParamDto, req: Request) {
     const cached = await this.redisService.get(urlParam.id);
+
+    const parser = new UAParser(req.headers['user-agent']);
+
+    console.log(
+      '🚀 url.service.ts:58 ->req.headers[user-agent] =>',
+      req.headers['user-agent'],
+    );
+    const dataForMq = {
+      shortUrl: urlParam.id,
+      ip: req.ip,
+      browser: parser.getBrowser().name,
+      os: parser.getOS().name,
+      device: parser.getDevice().type || 'desktop',
+      clickedAt: new Date(),
+    };
+
+    this.rabbitMq.publish('analytics', dataForMq);
     if (cached) {
       console.log('🚀 url.service.ts:51 -> cached', cached);
       return cached;

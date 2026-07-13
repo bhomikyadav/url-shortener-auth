@@ -42,8 +42,13 @@ export class UrlController {
   }
 
   @Get(`:id`)
-  async fetchUrl(@Param() param: UrlParamDto, @Res() res: Response) {
-    const originalUrl = await this.urlService.findUrl(param);
+  async fetchUrl(
+    @Param() param: UrlParamDto,
+    @Res() res: Response,
+    @Req() req: Request,
+  ) {
+    console.log('🚀 url.controller.ts:47 -> param ', param);
+    const originalUrl = await this.urlService.findUrl(param, req);
     if (!originalUrl) throw new InternalServerErrorException();
     console.log('🚀 url.controller.ts:48 -> originalUrl', originalUrl);
     return res.redirect(originalUrl);

@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UrlModule } from './modules/url/url.module';
 import { RedisModule } from './modules/redis/redis.module';
 import { RabbitMqModule } from './config/rabbit-mq/rabbit-mq.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
 
 @Module({
   imports: [UsersModule, AuthModule, ConfigModule.forRoot({
@@ -22,7 +23,8 @@ import { RabbitMqModule } from './config/rabbit-mq/rabbit-mq.module';
     }),
     UrlModule,
     RedisModule,
-    RabbitMqModule,],
+    RabbitMqModule,
+    AnalyticsModule,],
   controllers: [AppController],
   providers: [AppService],
 })

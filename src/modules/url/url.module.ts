@@ -6,6 +6,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Url, UrlSchema } from 'src/schema/url.schema';
 import { RedisModule } from '../redis/redis.module';
 import { RedisService } from '../redis/redis.service';
+import { RabbitMqModule } from 'src/config/rabbit-mq/rabbit-mq.module';
+import { RabbitMqService } from 'src/config/rabbit-mq/rabbit-mq.service';
 
 @Module({
   imports: [
@@ -16,8 +18,15 @@ import { RedisService } from '../redis/redis.service';
       },
     ]),
     RedisModule,
+    RabbitMqModule,
   ],
   controllers: [UrlController],
-  providers: [MongooseModule, UrlService, JwtAccessTokenStrategy, RedisService],
+  providers: [
+    MongooseModule,
+    UrlService,
+    JwtAccessTokenStrategy,
+    RedisService,
+    RabbitMqService,
+  ],
 })
 export class UrlModule {}
