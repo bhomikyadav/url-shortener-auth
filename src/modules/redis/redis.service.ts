@@ -1,5 +1,6 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { createClient, RedisClient, RedisClientType } from 'redis';
+import { RedisObjectT } from 'src/types/redis/redis';
 
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
@@ -36,15 +37,15 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     await this.redisClient.quit();
   }
 
-  async set(key: string, value: string, ttl: number = 60 * 1000) {
-    const addToRedis = await this.redisClient.set(key, value, {
+  async set(key: string, value: RedisObjectT, ttl: number = 60 * 1000) {
+    const addToRedis = await this.redisClient.set(key, JSON.stringify(value), {
       EX: ttl,
     });
 
     return addToRedis;
   }
   async get(key: string) {
-    const getData = this.redisClient.get(key);
+    const getData =await this.redisClient.get(key);
     return getData;
   }
 }

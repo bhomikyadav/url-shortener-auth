@@ -2,6 +2,9 @@
 /dist
 /node_modules
 /build
+TODO.md
+
+currentStep.md
 
 # Logs
 logs

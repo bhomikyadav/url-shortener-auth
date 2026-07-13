@@ -23,6 +23,16 @@ export class Url {
     required: true,
   })
   createdBy!: string;
+
+  @Prop({
+    required: true,
+  })
+  expireTime!: number;
+
+  @Prop({
+    required: true,
+  })
+  isActive!: boolean;
 }
 
 export const UrlSchema = SchemaFactory.createForClass(Url);
